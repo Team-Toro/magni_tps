@@ -9,13 +9,14 @@ interface ParticipantFiltersProps {
     setFiltroModalidad: (val: string) => void;
     setFiltroNivel: (val: string) => void;
   };
+  limpiarFiltros: () => void;
 }
 
-const ParticipantFilters: React.FC<ParticipantFiltersProps> = ({ filtros }) => {
+const ParticipantFilters: React.FC<ParticipantFiltersProps> = ({ filtros, limpiarFiltros }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <input
-        placeholder="🔍 Buscar por nombre..."
+        placeholder="Buscar por nombre..."
         value={filtros.filtroNombre}
         className="border p-3 rounded shadow-sm focus:ring-2 focus:ring-blue-300 outline-none"
         onChange={(e) => filtros.setFiltroNombre(e.target.value)}
@@ -40,6 +41,13 @@ const ParticipantFilters: React.FC<ParticipantFiltersProps> = ({ filtros }) => {
         <option>Intermedio</option>
         <option>Avanzado</option>
       </select>
+      <button
+        type="button"
+        onClick={limpiarFiltros}
+        className="border p-3 rounded shadow-sm bg-white font-semibold hover:bg-gray-50"
+      >
+        Limpiar filtros
+      </button>
     </div>
   );
 };
