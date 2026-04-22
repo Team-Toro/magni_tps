@@ -13,23 +13,15 @@ interface ParticipantFormProps {
   };
   manejarCambio: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   registrar: (e: React.FormEvent) => void;
-  participantesCount: number;
-  filtradosCount: number;
 }
 
 const ParticipantForm: React.FC<ParticipantFormProps> = ({
   formData,
   manejarCambio,
   registrar,
-  participantesCount,
-  filtradosCount
 }) => {
   return (
     <div className="bg-white p-6 shadow-md rounded-b-lg mb-8 border-x border-b">
-      {/* TP3: contador dinamico */}
-      <p className="text-gray-700 mb-6 font-semibold italic">
-        Mostrando {filtradosCount} de {participantesCount} participantes
-      </p>
 
       <form onSubmit={registrar} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

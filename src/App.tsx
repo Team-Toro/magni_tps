@@ -27,13 +27,20 @@ const App: React.FC = () => {
         </div>
 
         {/* TP3: formulario */}
-        <ParticipantForm 
-          formData={formData} 
-          manejarCambio={manejarCambio} 
-          registrar={registrar} 
+        <ParticipantForm
+          formData={formData}
+          manejarCambio={manejarCambio}
+          registrar={registrar}
           participantesCount={participantes.length}
           filtradosCount={filtrados.length}
         />
+
+        {/* TP3: contador dinamico */}
+        <div>
+          <p className="text-gray-700 mb-6 font-semibold italic">
+            Mostrando {filtrados.length} de {participantes.length} participantes
+          </p>
+        </div>
 
         {/* TP3: filtros combinados */}
         <ParticipantFilters filtros={filtros} limpiarFiltros={limpiarFiltros} />
