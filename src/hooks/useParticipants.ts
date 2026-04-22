@@ -1,5 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Participante } from '../types/Participante';
+import { Participante } from '../models/Participante';
+
+const initialFormData = {
+  nombre: '',
+  email: '',
+  edad: '' as unknown as number,
+  pais: 'Argentina',
+  modalidad: 'Presencial',
+  tecnologias: [] as string[],
+  nivel: 'Principiante',
+  aceptaTerminos: false
+};
+
+const defaultFiltroNombre = '';
+const defaultFiltroModalidad = 'Todas las modalidades';
+const defaultFiltroNivel = 'Todos los niveles';
 
 export const useParticipants = () => {
   const [participantes, setParticipantes] = useState<Participante[]>(() => {
@@ -17,20 +32,11 @@ export const useParticipants = () => {
     }
   });
 
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    edad: '' as unknown as number,
-    pais: 'Argentina',
-    modalidad: 'Presencial',
-    tecnologias: [] as string[],
-    nivel: 'Principiante',
-    aceptaTerminos: false
-  });
+  const [formData, setFormData] = useState({ ...initialFormData });
 
-  const [filtroNombre, setFiltroNombre] = useState('');
-  const [filtroModalidad, setFiltroModalidad] = useState('Todas las modalidades');
-  const [filtroNivel, setFiltroNivel] = useState('Todos los niveles');
+  const [filtroNombre, setFiltroNombre] = useState(defaultFiltroNombre);
+  const [filtroModalidad, setFiltroModalidad] = useState(defaultFiltroModalidad);
+  const [filtroNivel, setFiltroNivel] = useState(defaultFiltroNivel);
 
   useEffect(() => {
     localStorage.setItem('participantes', JSON.stringify(participantes));
@@ -69,15 +75,24 @@ export const useParticipants = () => {
 
     setParticipantes([...participantes, nuevo]);
 
-    setFormData({
-      nombre: '', email: '', edad: '' as unknown as number,
-      pais: 'Argentina', modalidad: 'Presencial',
-      tecnologias: [], nivel: 'Principiante', aceptaTerminos: false
-    });
+    setFormData({ ...initialFormData });
   };
 
   const eliminar = (id: number) => {
     setParticipantes(participantes.filter(p => p.id !== id));
+  };
+
+  const limpiarFiltros = () => {
+    setFiltroNombre(defaultFiltroNombre);
+    setFiltroModalidad(defaultFiltroModalidad);
+    setFiltroNivel(defaultFiltroNivel);
+  };
+
+  const resetearDatos = () => {
+    localStorage.removeItem('participantes');
+    setParticipantes([]);
+    setFormData({ ...initialFormData });
+    limpiarFiltros();
   };
 
   const filtrados = participantes.filter(p => {
@@ -101,6 +116,8 @@ export const useParticipants = () => {
     filtrados,
     manejarCambio,
     registrar,
-    eliminar
+    eliminar,
+    limpiarFiltros,
+    resetearDatos
   };
 };

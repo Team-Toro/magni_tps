@@ -13,21 +13,15 @@ interface ParticipantFormProps {
   };
   manejarCambio: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   registrar: (e: React.FormEvent) => void;
-  participantesCount: number;
 }
 
 const ParticipantForm: React.FC<ParticipantFormProps> = ({
   formData,
   manejarCambio,
   registrar,
-  participantesCount
 }) => {
   return (
     <div className="bg-white p-6 shadow-md rounded-b-lg mb-8 border-x border-b">
-      {/* Contador de participantes */}
-      <p className="text-gray-700 mb-6 font-semibold italic">
-        Participantes registrados: {participantesCount}
-      </p>
 
       <form onSubmit={registrar} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

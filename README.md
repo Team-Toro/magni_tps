@@ -1,4 +1,4 @@
-# TP N2 Magni
+# TP N3 Magni
 
 # Grupo Toro
 - Arena, Lucio
@@ -10,3 +10,9 @@
 - React
 - Vite
 - Tailwind
+
+# Scripts
+- npm install
+- npm run dev
+- npm run build
+- npm run preview
