@@ -3,7 +3,8 @@ import { ParticipantesContext } from './ParticipantesContext';
 import { participantesReducer } from '../reducers/participantesReducer';
 import type { Participante } from '../models/Participante';
 
-const API_URL = 'http://localhost:3001/participantes';
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+const API_URL = `${API_BASE_URL.replace(/\/$/, '')}/participantes`;
 
 export function ParticipantesProvider({ children }: { children: ReactNode }) {
   const [participantes, dispatch] = useReducer(participantesReducer, []);
