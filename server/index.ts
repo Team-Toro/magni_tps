@@ -66,6 +66,27 @@ app.delete('/participantes/:id', (req: Request, res: Response) => {
   res.json({ success: true });
 });
 
+app.put('/participantes/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const p = req.body;
+  db.prepare(`
+    UPDATE participantes 
+    SET nombre = ?, email = ?, edad = ?, pais = ?, modalidad = ?, tecnologias = ?, nivel = ?, aceptaTerminos = ?
+    WHERE id = ?
+  `).run(
+    p.nombre,
+    p.email,
+    p.edad,
+    p.pais,
+    p.modalidad,
+    JSON.stringify(p.tecnologias),
+    p.nivel,
+    p.aceptaTerminos ? 1 : 0,
+    id
+  );
+  res.json({ id: Number(id), ...p });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

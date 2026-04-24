@@ -1,16 +1,17 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import { useReducer, useEffect, type ReactNode } from 'react';
 import { ParticipantesContext } from './ParticipantesContext';
+import { participantesReducer } from '../reducers/participantesReducer';
 import type { Participante } from '../models/Participante';
 
 const API_URL = 'http://localhost:3001/participantes';
 
 export function ParticipantesProvider({ children }: { children: ReactNode }) {
-  const [participantes, setParticipantes] = useState<Participante[]>([]);
+  const [participantes, dispatch] = useReducer(participantesReducer, []);
 
   useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
-      .then(data => setParticipantes(data))
+      .then((data: Participante[]) => dispatch({ type: 'SET', payload: data }))
       .catch(console.error);
   }, []);
 
@@ -21,23 +22,33 @@ export function ParticipantesProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify(nuevo),
     });
     const created = await res.json();
-    setParticipantes(prev => [...prev, created]);
+    dispatch({ type: 'AGREGAR', payload: created });
   };
 
   const eliminar = async (id: number) => {
     await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-    setParticipantes(prev => prev.filter(p => p.id !== id));
+    dispatch({ type: 'ELIMINAR', payload: id });
   };
 
   const resetear = async () => {
     for (const p of participantes) {
       await fetch(`${API_URL}/${p.id}`, { method: 'DELETE' });
     }
-    setParticipantes([]);
+    dispatch({ type: 'RESET', payload: [] });
+  };
+
+  const editar = async (actualizado: Participante) => {
+    const res = await fetch(`${API_URL}/${actualizado.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(actualizado),
+    });
+    const updated = await res.json();
+    dispatch({ type: 'EDITAR', payload: updated });
   };
 
   return (
-    <ParticipantesContext.Provider value={{ participantes, agregar, eliminar, resetear }}>
+    <ParticipantesContext.Provider value={{ participantes, agregar, eliminar, resetear, editar }}>
       {children}
     </ParticipantesContext.Provider>
   );

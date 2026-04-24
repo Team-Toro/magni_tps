@@ -3,9 +3,10 @@ import { useParticipantes } from '../context/useParticipantes';
 
 interface CardProps {
   p: Participante;
+  onEditar: (p: Participante) => void;
 }
 
-export const ParticipanteCard = ({ p }: CardProps) => {
+export const ParticipanteCard = ({ p, onEditar }: CardProps) => {
   const { eliminar } = useParticipantes();
   
   const styles = 
@@ -29,6 +30,12 @@ export const ParticipanteCard = ({ p }: CardProps) => {
           <p className="mt-1 font-medium text-gray-700">{p.tecnologias.join(' - ')}</p>
         )}
       </div>
+      <button 
+        onClick={() => onEditar(p)}
+        className="mt-4 bg-blue-500 text-white text-sm py-1.5 px-4 rounded hover:bg-blue-600 transition w-fit"
+      >
+        Editar
+      </button>
       <button 
         onClick={() => eliminar(p.id)}
         className="mt-4 bg-red-500 text-white text-sm py-1.5 px-4 rounded hover:bg-red-600 transition w-fit"

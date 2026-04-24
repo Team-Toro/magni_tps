@@ -6,6 +6,7 @@ interface ContextType {
   agregar: (p: Omit<Participante, 'id'>) => Promise<void>;
   eliminar: (id: number) => Promise<void>;
   resetear: () => Promise<void>;
+  editar: (p: Participante) => Promise<void>;
 }
 
 export const ParticipantesContext = createContext<ContextType | undefined>(undefined);

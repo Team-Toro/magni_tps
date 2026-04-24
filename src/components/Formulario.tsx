@@ -1,11 +1,26 @@
-import { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { Participante } from '../models/Participante';
 import { useParticipantes } from '../context/useParticipantes';
 
-export const Formulario = () => {
-  const { agregar } = useParticipantes();
-  const [formData, setFormData] = useState({
+interface FormularioProps {
+  participanteEditando: Participante | null;
+  onEditarComplete: () => void;
+}
+
+function getInitialData(participante: Participante | null) {
+  if (participante) {
+    return {
+      nombre: participante.nombre,
+      email: participante.email,
+      edad: String(participante.edad),
+      pais: participante.pais,
+      modalidad: participante.modalidad,
+      tecnologias: [...participante.tecnologias],
+      nivel: participante.nivel,
+      aceptaTerminos: participante.aceptaTerminos
+    };
+  }
+  return {
     nombre: '',
     email: '',
     edad: '',
@@ -14,22 +29,29 @@ export const Formulario = () => {
     tecnologias: [] as string[],
     nivel: 'Principiante' as const,
     aceptaTerminos: false
-  });
+  };
+}
+
+export const Formulario = ({ participanteEditando, onEditarComplete }: FormularioProps) => {
+  const { agregar, editar } = useParticipantes();
+  const [formData, setFormData] = useState(() => getInitialData(participanteEditando));
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
     if (type === 'checkbox' && name === 'tecnologias') {
       const target = e.target as HTMLInputElement;
-      const nuevasTecs = target.checked 
-        ? [...formData.tecnologias, value]
-        : formData.tecnologias.filter(t => t !== value);
-      setFormData({ ...formData, tecnologias: nuevasTecs });
+      setFormData(prev => ({
+        ...prev,
+        tecnologias: target.checked 
+          ? [...prev.tecnologias, value]
+          : prev.tecnologias.filter(t => t !== value)
+      }));
     } else {
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
-      });
+      }));
     }
   };
 
@@ -37,29 +59,34 @@ export const Formulario = () => {
     e.preventDefault();
     if (!formData.aceptaTerminos) return alert("Debes aceptar los términos");
     
-    agregar({ 
+    const data = { 
       ...formData, 
       edad: Number(formData.edad),
       tecnologias: formData.tecnologias 
-    } as Omit<Participante, 'id'>);
+    };
 
-    setFormData({
-      nombre: '', 
-      email: '', 
-      edad: '', 
-      pais: 'Argentina',
-      modalidad: 'Presencial', 
-      tecnologias: [], 
-      nivel: 'Principiante', 
-      aceptaTerminos: false
-    });
+    if (participanteEditando) {
+      editar({ ...data, id: participanteEditando.id });
+      onEditarComplete();
+      setFormData({
+        nombre: '',
+        email: '',
+        edad: '',
+        pais: 'Argentina',
+        modalidad: 'Presencial',
+        tecnologias: [],
+        nivel: 'Principiante',
+        aceptaTerminos: false
+      });
+    } else {
+      agregar(data as Omit<Participante, 'id'>);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-sm border border-gray-200 mb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        {/* Nombre */}
         <input 
           name="nombre" 
           value={formData.nombre} 
@@ -70,7 +97,6 @@ export const Formulario = () => {
           required 
         />
 
-        {/* Email */}
         <input 
           name="email" 
           value={formData.email} 
@@ -81,7 +107,6 @@ export const Formulario = () => {
           required 
         />
         
-        {/* Edad */}
         <input 
           name="edad" 
           value={formData.edad} 
@@ -92,7 +117,6 @@ export const Formulario = () => {
           required 
         />
         
-        {/* País */}
         <select 
           name="pais" 
           value={formData.pais} 
@@ -104,7 +128,6 @@ export const Formulario = () => {
           ))}
         </select>
 
-        {/* Modalidad */}
         <div className="md:col-span-2">
           <p className="font-bold text-sm mb-1 text-gray-700">Modalidad</p>
           <div className="flex gap-4">
@@ -123,7 +146,6 @@ export const Formulario = () => {
           </div>
         </div>
 
-        {/* Tecnologías */}
         <div className="md:col-span-2">
           <p className="font-bold text-sm mb-1 text-gray-700">Tecnologías</p>
           <div className="grid grid-cols-3 gap-2">
@@ -142,7 +164,6 @@ export const Formulario = () => {
           </div>
         </div>
 
-        {/* Nivel */}
         <select 
           name="nivel" 
           value={formData.nivel} 
@@ -154,7 +175,6 @@ export const Formulario = () => {
           ))}
         </select>
 
-        {/* Términos */}
         <label className="md:col-span-2 flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
           <input 
             type="checkbox" 
@@ -171,7 +191,7 @@ export const Formulario = () => {
         type="submit" 
         className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded shadow-sm transition-all active:scale-95"
       >
-        Registrar
+        {participanteEditando ? 'Actualizar' : 'Registrar'}
       </button>
     </form>
   );

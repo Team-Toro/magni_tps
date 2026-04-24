@@ -3,12 +3,14 @@ import { Formulario } from './components/Formulario';
 import { Filtros } from './components/Filtros';
 import { ParticipanteCard } from './components/ParticipanteCard';
 import { useParticipantes } from './context/useParticipantes'
+import type { Participante } from './models/Participante';
 
 export function Home() {
   const { participantes, resetear } = useParticipantes();
   const [filtro, setFiltro] = useState('');
   const [filtroMod, setFiltroMod] = useState('Todas');
   const [filtroNivel, setFiltroNivel] = useState('Todos');
+  const [participanteEditando, setParticipanteEditando] = useState<Participante | null>(null);
 
   const limpiarFiltros = () => {
     setFiltro('');
@@ -33,12 +35,16 @@ export function Home() {
       </div>
 
       <div className="max-w-6xl mx-auto p-4">
+        <Formulario 
+          key={participanteEditando?.id ?? 'nuevo'}
+          participanteEditando={participanteEditando} 
+          onEditarComplete={() => setParticipanteEditando(null)} 
+        />
+
         <p className="mb-4 font-bold text-gray-700">
           Mostrando {filtrados.length} de {participantes.length} participantes
         </p>
         
-        <Formulario />
-
         <Filtros 
           filtro={filtro} setFiltro={setFiltro}
           filtroMod={filtroMod} setFiltroMod={setFiltroMod}
@@ -53,7 +59,7 @@ export function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {filtrados.map(p => (
-              <ParticipanteCard key={p.id} p={p} />
+              <ParticipanteCard key={p.id} p={p} onEditar={setParticipanteEditando} />
             ))}
           </div>
         )}

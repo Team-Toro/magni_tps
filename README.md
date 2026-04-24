@@ -1,6 +1,6 @@
-# Registro de Participantes - TP4
+# Registro de Participantes - TP5
 
-Aplicación React con backend Express + SQLite y Context API.
+Aplicación React con backend Express + SQLite, Context API y useReducer.
 
 ## Requisitos
 
@@ -28,6 +28,7 @@ Esto inicia:
 |--------|----------|-------------|
 | GET | `/participantes` | Lista todos los participantes |
 | POST | `/participantes` | Crea un participante |
+| PUT | `/participantes/:id` | Actualiza un participante por ID |
 | DELETE | `/participantes/:id` | Elimina un participante por ID |
 
 ## Estructura
@@ -38,6 +39,8 @@ src/
 │   ├── ParticipantesContext.tsx   # Context
 │   ├── ParticipantesProvider.tsx # Provider
 │   └── useParticipantes.ts      # Hook
+├── reducers/
+│   └── participantesReducer.ts   # Reducer con acciones
 ├── components/
 │   ├── Formulario.tsx
 │   ├── Filtros.tsx
@@ -53,8 +56,9 @@ server/
 └── index.ts
 ```
 
-## Cambios visibles vs versión anterior (TP3)
+## Cambios vs versión anterior (TP3)
 
-- **Persistencia**: Los datos ahora se guardan en SQLite (backend), no en localStorage
-- **Context API**:any component puede acceder a participantes sin pasar props
-- **API REST**: Frontend y backend se comunican via JSON
+- **useReducer**: El estado se maneja con reducer en lugar de useState
+- **Acciones centralizadas**: Todas las operaciones de estado pasan por el reducer
+- **Editar participante**: Nueva funcionalidad para editar participantes existentes
+- **Botón dinámico**: El botón del formulario cambia entre "Registrar" y "Actualizar"
