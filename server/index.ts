@@ -4,9 +4,25 @@ import db from './database';
 import type { Request, Response } from 'express';
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
+const CORS_ORIGIN = process.env.CORS_ORIGIN ?? 'http://localhost:5173';
+const allowedOrigins = CORS_ORIGIN.split(',').map(origin => origin.trim());
 
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        return callback(null, false);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'));
+    },
+  })
+);
 app.use(express.json());
 
 interface ParticipanteRow {

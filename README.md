@@ -18,6 +18,18 @@ npm install
 npm run start
 ```
 
+## Variables de entorno
+
+Crea un archivo `.env` basado en `env.example`.
+
+Ejemplo:
+
+```bash
+VITE_API_URL=http://localhost:3001
+PORT=3001
+CORS_ORIGIN=http://localhost:5173
+```
+
 Esto inicia:
 - Backend API en `http://localhost:3001`
 - Frontend React en `http://localhost:5173`

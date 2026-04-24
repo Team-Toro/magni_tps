@@ -28,7 +28,7 @@ export function Home() {
   return (
     <div className="bg-white min-h-screen text-gray-800 font-sans">
       <div className="bg-emerald-500 text-white p-3 font-bold text-lg px-6 mb-4 flex justify-between items-center">
-        Registro de Participantes - TP4
+        Registro de Participantes - TP5
         <button onClick={resetear} className="text-xs bg-emerald-700 hover:bg-emerald-800 p-2 rounded">
           Resetear datos
         </button>
