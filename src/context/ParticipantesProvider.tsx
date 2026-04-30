@@ -1,4 +1,4 @@
-import { useReducer, useEffect, type ReactNode } from 'react';
+import { useReducer, useEffect, useState, type ReactNode } from 'react';
 import { ParticipantesContext } from './ParticipantesContext';
 import { participantesReducer } from '../reducers/participantesReducer';
 import type { Participante } from '../models/Participante';
@@ -7,6 +7,7 @@ const API_URL = 'http://localhost:3001/participantes';
 
 export function ParticipantesProvider({ children }: { children: ReactNode }) {
   const [participantes, dispatch] = useReducer(participantesReducer, []);
+  const [participanteSeleccionado, setParticipanteSeleccionado] = useState<Participante | null>(null);
 
   useEffect(() => {
     fetch(API_URL)
@@ -47,8 +48,20 @@ export function ParticipantesProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'EDITAR', payload: updated });
   };
 
+  const seleccionar = (p: Participante | null) => {
+    setParticipanteSeleccionado(p);
+  };
+
   return (
-    <ParticipantesContext.Provider value={{ participantes, agregar, eliminar, resetear, editar }}>
+    <ParticipantesContext.Provider value={{
+      participantes,
+      agregar,
+      eliminar,
+      resetear,
+      editar,
+      participanteSeleccionado,
+      seleccionar,
+    }}>
       {children}
     </ParticipantesContext.Provider>
   );
