@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 
 type HamburgerMenuProps = {
   isOpen: boolean;
@@ -8,6 +9,8 @@ type HamburgerMenuProps = {
 };
 
 export default function HamburgerMenu({ isOpen, onToggle, onClose }: HamburgerMenuProps) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     if (!isOpen) return;
 
@@ -63,19 +66,41 @@ export default function HamburgerMenu({ isOpen, onToggle, onClose }: HamburgerMe
       >
         <nav className="p-4">
           <Link
-            to="/"
+            to="/publica"
+            onClick={onClose}
+            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
+          >
+            Publica
+          </Link>
+          <Link
+            to="/lista"
             onClick={onClose}
             className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
           >
             Lista
           </Link>
-          <Link
-            to="/nuevo"
-            onClick={onClose}
-            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
-          >
-            Nuevo
-          </Link>
+          {user?.rol === 'ADMIN' ? (
+            <Link
+              to="/nuevo"
+              onClick={onClose}
+              className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
+            >
+              Nuevo
+            </Link>
+          ) : null}
+          {user ? (
+            <button
+              type="button"
+              onClick={() => {
+                logout();
+                onClose();
+                navigate('/login', { replace: true });
+              }}
+              className="mt-4 w-full rounded px-3 py-2 text-white bg-red-600 hover:bg-red-700"
+            >
+              Cerrar sesion
+            </button>
+          ) : null}
         </nav>
       </div>
     </>

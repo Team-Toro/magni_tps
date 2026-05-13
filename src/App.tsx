@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HamburgerMenu from './components/HamburgerMenu';
-import Home from './pages/Home';
+import ListaPage from './pages/ListaPage';
 import FormularioPage from './pages/FormularioPage';
 import EditarPage from './pages/EditarPage';
+import LoginPage from './pages/LoginPage';
+import PublicaPage from './pages/PublicaPage';
+import PrivateRoute from './routes/PrivateRoute';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,9 +21,33 @@ function App() {
         onClose={closeMenu}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/nuevo" element={<FormularioPage />} />
-        <Route path="/editar/:id" element={<EditarPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/publica" element={<PublicaPage />} />
+        <Route
+          path="/lista"
+          element={
+            <PrivateRoute>
+              <ListaPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/nuevo"
+          element={
+            <PrivateRoute rol="ADMIN">
+              <FormularioPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/editar/:id"
+          element={
+            <PrivateRoute rol="ADMIN">
+              <EditarPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </div>
   );

@@ -7,6 +7,7 @@ interface ContextType {
   eliminar: (id: number) => Promise<void>;
   resetear: () => Promise<void>;
   editar: (p: Participante) => Promise<void>;
+  refresh: () => Promise<void>;
   participanteSeleccionado: Participante | null;
   seleccionar: (p: Participante | null) => void;
 }

@@ -2,12 +2,20 @@ import express from 'express';
 import cors from 'cors';
 import db from './database';
 import type { Request, Response } from 'express';
+import { authMiddleware, createToken, type AuthPayload } from './auth';
 
 const app = express();
 const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
+
+interface UsuarioRow {
+  id: number;
+  username: string;
+  password: string;
+  rol: 'ADMIN' | 'CONSULTA';
+}
 
 interface ParticipanteRow {
   id: number;
@@ -35,13 +43,32 @@ function rowToParticipante(row: ParticipanteRow) {
   };
 }
 
-app.get('/participantes', (_req: Request, res: Response) => {
+app.post('/login', (req: Request, res: Response) => {
+  const { username, password } = req.body ?? {};
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Credenciales requeridas' });
+  }
+
+  const row = db
+    .prepare('SELECT id, username, password, rol FROM usuarios_db WHERE username = ?')
+    .get(username) as UsuarioRow | undefined;
+
+  if (!row || row.password !== password) {
+    return res.status(401).json({ message: 'Usuario o password incorrecto' });
+  }
+
+  const payload: AuthPayload = { id: row.id, username: row.username, rol: row.rol };
+  const token = createToken(payload);
+  return res.json({ token, user: payload });
+});
+
+app.get('/participantes', authMiddleware, (_req: Request, res: Response) => {
   const rows = db.prepare('SELECT * FROM participantes').all() as ParticipanteRow[];
   const participantes = rows.map(rowToParticipante);
   res.json(participantes);
 });
 
-app.post('/participantes', (req: Request, res: Response) => {
+app.post('/participantes', authMiddleware, (req: Request, res: Response) => {
   const p = req.body;
   const stmt = db.prepare(`
     INSERT INTO participantes (nombre, email, edad, pais, modalidad, tecnologias, nivel, aceptaTerminos)
@@ -60,13 +87,13 @@ app.post('/participantes', (req: Request, res: Response) => {
   res.json({ id: result.lastInsertRowid, ...p });
 });
 
-app.delete('/participantes/:id', (req: Request, res: Response) => {
+app.delete('/participantes/:id', authMiddleware, (req: Request, res: Response) => {
   const { id } = req.params;
   db.prepare('DELETE FROM participantes WHERE id = ?').run(id);
   res.json({ success: true });
 });
 
-app.put('/participantes/:id', (req: Request, res: Response) => {
+app.put('/participantes/:id', authMiddleware, (req: Request, res: Response) => {
   const { id } = req.params;
   const p = req.body;
   db.prepare(`
