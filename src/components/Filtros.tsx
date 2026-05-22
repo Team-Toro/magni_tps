@@ -1,3 +1,5 @@
+import type { RefObject } from 'react';
+
 interface FiltrosProps {
   filtro: string;
   setFiltro: (val: string) => void;
@@ -6,16 +8,18 @@ interface FiltrosProps {
   filtroNivel: string;
   setFiltroNivel: (val: string) => void;
   onLimpiar: () => void;
+  nombreInputRef?: RefObject<HTMLInputElement>;
 }
 
 export const Filtros = ({ 
-  filtro, setFiltro, filtroMod, setFiltroMod, filtroNivel, setFiltroNivel, onLimpiar 
+  filtro, setFiltro, filtroMod, setFiltroMod, filtroNivel, setFiltroNivel, onLimpiar, nombreInputRef 
 }: FiltrosProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-8">
       <input 
+        ref={nombreInputRef}
         placeholder="Buscar por nombre..." 
-        className="flex-1 border border-gray-300 p-2 rounded outline-none" 
+        className="flex-1 border border-gray-300 p-2 rounded outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" 
         value={filtro} 
         onChange={(e) => setFiltro(e.target.value)} 
       />

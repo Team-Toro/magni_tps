@@ -8,7 +8,11 @@ type HamburgerMenuProps = {
   onClose: () => void;
 };
 
-export default function HamburgerMenu({ isOpen, onToggle, onClose }: HamburgerMenuProps) {
+export default function HamburgerMenu({
+  isOpen,
+  onToggle,
+  onClose,
+}: HamburgerMenuProps) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
@@ -42,7 +46,7 @@ export default function HamburgerMenu({ isOpen, onToggle, onClose }: HamburgerMe
             <span className="block h-0.5 w-6 bg-gray-800" />
           </button>
           <h1 className="pointer-events-none absolute inset-0 flex items-center justify-center text-lg font-bold text-gray-800">
-            TP Nº7
+            TP Nº8
           </h1>
         </div>
       </header>

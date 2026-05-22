@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
+import { useLoginHelp } from '../hooks/useLoginHelp';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const loginHelp = useLoginHelp();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -20,6 +22,7 @@ export default function LoginPage() {
 
     if (!ok) {
       setError('Credenciales invalidas');
+      loginHelp.onFailedLogin();
       return;
     }
 
@@ -72,6 +75,37 @@ export default function LoginPage() {
           {isSubmitting ? 'Ingresando...' : 'Login'}
         </button>
       </form>
+      {loginHelp.isOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Datos de acceso
+            </h3>
+            <p className="mt-2 text-sm text-gray-600">
+              Usa estas credenciales de prueba:
+            </p>
+            <div className="mt-4 space-y-3 text-sm text-gray-700">
+              <div className="rounded-md border border-gray-200 p-3">
+                <p className="font-semibold">Admin</p>
+                <p>Usuario: <span className="font-mono">admin</span></p>
+                <p>Password: <span className="font-mono">Admin1234!</span></p>
+              </div>
+              <div className="rounded-md border border-gray-200 p-3">
+                <p className="font-semibold">Consulta</p>
+                <p>Usuario: <span className="font-mono">juan</span></p>
+                <p>Password: <span className="font-mono">Juan1234!</span></p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={loginHelp.close}
+              className="mt-6 w-full rounded-md bg-gray-800 text-white py-2 font-medium hover:bg-gray-900"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

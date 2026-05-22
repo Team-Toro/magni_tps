@@ -14,7 +14,7 @@ function App() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-gray-900">
       <HamburgerMenu
         isOpen={isMenuOpen}
         onToggle={toggleMenu}
