@@ -10,24 +10,24 @@ export default function ParticipanteCard({ participante }: {
   const navigate = useNavigate();
   const { user } = useAuth();
   const styles =
-    participante.nivel === 'Principiante' ? { bg: 'bg-green-50', text: 'text-green-600' } :
-    participante.nivel === 'Intermedio' ? { bg: 'bg-yellow-50', text: 'text-yellow-600' } :
-    { bg: 'bg-red-50', text: 'text-red-600' };
+    participante.nivel === 'Principiante' ? { bg: 'bg-green-50 dark:bg-emerald-900/30', text: 'text-green-600 dark:text-emerald-300' } :
+    participante.nivel === 'Intermedio' ? { bg: 'bg-yellow-50 dark:bg-amber-900/30', text: 'text-yellow-600 dark:text-amber-300' } :
+    { bg: 'bg-red-50 dark:bg-rose-900/30', text: 'text-red-600 dark:text-rose-300' };
 
   return (
-    <div className={`${styles.bg} border border-gray-200 p-5 rounded relative flex flex-col gap-1 shadow-sm`}>
-      <h3 className="text-lg font-bold">{participante.nombre}</h3>
-      <p className="text-gray-700">{participante.pais}</p>
+    <div className={`${styles.bg} border border-gray-200 p-5 rounded relative flex flex-col gap-1 shadow-sm dark:border-slate-700`}>
+      <h3 className="text-lg font-bold dark:text-slate-100">{participante.nombre}</h3>
+      <p className="text-gray-700 dark:text-slate-300">{participante.pais}</p>
       <div className="mt-2 text-sm">
-        <p className="text-gray-800">Modalidad: {participante.modalidad}</p>
+        <p className="text-gray-800 dark:text-slate-200">Modalidad: {participante.modalidad}</p>
         <p className={`font-bold ${styles.text}`}>Nivel: {participante.nivel}</p>
         {participante.nivel === 'Avanzado' ? (
           <div className="mt-2">
-            <p className="font-bold text-gray-800">{participante.tecnologias[0]}</p>
-            <p className="font-bold text-red-500">Perfil Avanzado</p>
+            <p className="font-bold text-gray-800 dark:text-slate-200">{participante.tecnologias[0]}</p>
+            <p className="font-bold text-red-500 dark:text-rose-300">Perfil Avanzado</p>
           </div>
         ) : (
-          <p className="mt-1 font-medium text-gray-700">{participante.tecnologias.join(' - ')}</p>
+          <p className="mt-1 font-medium text-gray-700 dark:text-slate-300">{participante.tecnologias.join(' - ')}</p>
         )}
       </div>
       {user?.rol === 'ADMIN' ? (

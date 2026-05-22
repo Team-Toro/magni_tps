@@ -6,12 +6,16 @@ type HamburgerMenuProps = {
   isOpen: boolean;
   onToggle: () => void;
   onClose: () => void;
+  theme: 'light' | 'dark';
+  onToggleTheme: () => void;
 };
 
 export default function HamburgerMenu({
   isOpen,
   onToggle,
   onClose,
+  theme,
+  onToggleTheme,
 }: HamburgerMenuProps) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -30,24 +34,35 @@ export default function HamburgerMenu({
 
   return (
     <>
-      <header className="relative z-50 border-b border-gray-200 bg-emerald-100">
-        <div className="relative flex h-14 items-center px-2">
+      <header className="relative z-50 border-b border-gray-200 bg-emerald-100 dark:border-slate-800 dark:bg-slate-900">
+        <div className="relative flex h-14 items-center justify-between px-2">
           <button
             type="button"
             onClick={onToggle}
             aria-expanded={isOpen}
             aria-controls="main-menu"
             aria-label="Abrir menú"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1 rounded hover:bg-gray-100"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1 rounded hover:bg-gray-100 dark:hover:bg-slate-800"
           >
             <span className="sr-only">Abrir menú</span>
-            <span className="block h-0.5 w-6 bg-gray-800" />
-            <span className="block h-0.5 w-6 bg-gray-800" />
-            <span className="block h-0.5 w-6 bg-gray-800" />
+            <span className="block h-0.5 w-6 bg-gray-800 dark:bg-slate-100" />
+            <span className="block h-0.5 w-6 bg-gray-800 dark:bg-slate-100" />
+            <span className="block h-0.5 w-6 bg-gray-800 dark:bg-slate-100" />
           </button>
-          <h1 className="pointer-events-none absolute inset-0 flex items-center justify-center text-lg font-bold text-gray-800">
+          <h1 className="pointer-events-none absolute inset-0 flex items-center justify-center text-lg font-bold text-gray-800 dark:text-slate-100">
             TP Nº8
           </h1>
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            className="flex h-9 items-center gap-2 rounded-full border border-gray-300 bg-white px-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+            aria-label="Alternar tema"
+          >
+            <span className="text-base" aria-hidden="true">
+              {theme === 'dark' ? '🌙' : '☀️'}
+            </span>
+            <span>{theme === 'dark' ? 'Oscuro' : 'Claro'}</span>
+          </button>
         </div>
       </header>
 
@@ -62,7 +77,7 @@ export default function HamburgerMenu({
         id="main-menu"
         role="menu"
         className={
-          `fixed left-0 top-14 bottom-0 z-50 w-full bg-white shadow-lg transition-transform duration-200 ease-out md:w-60 ${
+          `fixed left-0 top-14 bottom-0 z-50 w-full bg-white shadow-lg transition-transform duration-200 ease-out md:w-60 dark:bg-slate-900 ${
             isOpen ? 'translate-x-0 pointer-events-auto' : '-translate-x-full pointer-events-none'
           }`
         }
@@ -72,14 +87,14 @@ export default function HamburgerMenu({
           <Link
             to="/publica"
             onClick={onClose}
-            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
+            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             Publica
           </Link>
           <Link
             to="/lista"
             onClick={onClose}
-            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
+            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             Lista
           </Link>
@@ -87,7 +102,7 @@ export default function HamburgerMenu({
             <Link
               to="/nuevo"
               onClick={onClose}
-              className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100"
+              className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
             >
               Nuevo
             </Link>

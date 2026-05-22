@@ -19,12 +19,12 @@ export const Filtros = ({
       <input 
         ref={nombreInputRef}
         placeholder="Buscar por nombre..." 
-        className="flex-1 border border-gray-300 p-2 rounded outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" 
+        className="flex-1 border border-gray-300 p-2 rounded outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400" 
         value={filtro} 
         onChange={(e) => setFiltro(e.target.value)} 
       />
       <select 
-        className="flex-1 border border-gray-300 p-2 rounded bg-white" 
+        className="flex-1 border border-gray-300 p-2 rounded bg-white dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100" 
         value={filtroMod} 
         onChange={(e) => setFiltroMod(e.target.value)}
       >
@@ -34,7 +34,7 @@ export const Filtros = ({
         <option value="Híbrido">Híbrido</option>
       </select>
       <select 
-        className="flex-1 border border-gray-300 p-2 rounded bg-white" 
+        className="flex-1 border border-gray-300 p-2 rounded bg-white dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100" 
         value={filtroNivel} 
         onChange={(e) => setFiltroNivel(e.target.value)}
       >
@@ -45,7 +45,7 @@ export const Filtros = ({
       </select>
       <button 
         onClick={onLimpiar}
-        className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition shadow-sm"
+        className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition shadow-sm dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
       >
         Limpiar filtros
       </button>

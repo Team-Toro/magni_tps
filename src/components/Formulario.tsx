@@ -63,7 +63,7 @@ function FormularioFields({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="flex flex-col gap-1">
-        <label htmlFor={nombreId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={nombreId} className="text-sm font-medium text-gray-700 dark:text-slate-200">
           Nombre
         </label>
         <input
@@ -74,13 +74,13 @@ function FormularioFields({
           onChange={onChange}
           type="text"
           placeholder="Nombre"
-          className="border border-gray-300 p-2 rounded outline-none focus:border-blue-400"
+          className="border border-gray-300 p-2 rounded outline-none focus:border-blue-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
           required
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor={emailId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={emailId} className="text-sm font-medium text-gray-700 dark:text-slate-200">
           Email
         </label>
         <input
@@ -90,13 +90,13 @@ function FormularioFields({
           onChange={onChange}
           type="email"
           placeholder="Email"
-          className="border border-gray-300 p-2 rounded outline-none focus:border-blue-400"
+          className="border border-gray-300 p-2 rounded outline-none focus:border-blue-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
           required
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor={edadId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={edadId} className="text-sm font-medium text-gray-700 dark:text-slate-200">
           Edad
         </label>
         <input
@@ -106,13 +106,13 @@ function FormularioFields({
           onChange={onChange}
           type="number"
           placeholder="Edad"
-          className="border border-gray-300 p-2 rounded outline-none focus:border-blue-400"
+          className="border border-gray-300 p-2 rounded outline-none focus:border-blue-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
           required
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor={paisId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={paisId} className="text-sm font-medium text-gray-700 dark:text-slate-200">
           Pais
         </label>
         <select
@@ -120,7 +120,7 @@ function FormularioFields({
           name="pais"
           value={formData.pais}
           onChange={onChange}
-          className="border border-gray-300 p-2 rounded bg-white outline-none focus:border-blue-400"
+          className="border border-gray-300 p-2 rounded bg-white outline-none focus:border-blue-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
         >
           {['Argentina', 'Chile', 'Brasil', 'México', 'Uruguay'].map(p => (
             <option key={p} value={p}>{p}</option>
@@ -129,7 +129,7 @@ function FormularioFields({
       </div>
 
       <fieldset className="md:col-span-2">
-        <legend className="font-bold text-sm mb-1 text-gray-700">Modalidad</legend>
+        <legend className="font-bold text-sm mb-1 text-gray-700 dark:text-slate-200">Modalidad</legend>
         <div className="flex gap-4">
           {['Presencial', 'Virtual', 'Híbrido'].map((m, index) => {
             const modalidadId = `${modalidadGroupId}-${index}`;
@@ -144,7 +144,7 @@ function FormularioFields({
                   onChange={onChange}
                   className="accent-blue-600"
                 />
-                <label htmlFor={modalidadId} className="cursor-pointer">
+                <label htmlFor={modalidadId} className="cursor-pointer dark:text-slate-200">
                   {m}
                 </label>
               </div>
@@ -154,7 +154,7 @@ function FormularioFields({
       </fieldset>
 
       <fieldset className="md:col-span-2">
-        <legend className="font-bold text-sm mb-1 text-gray-700">Tecnologias</legend>
+        <legend className="font-bold text-sm mb-1 text-gray-700 dark:text-slate-200">Tecnologias</legend>
         <div className="grid grid-cols-3 gap-2">
           {['React', 'Angular', 'Vue', 'Node', 'Python', 'Java'].map((tech, index) => {
             const tecnologiaId = `${tecnologiasGroupId}-${index}`;
@@ -169,7 +169,7 @@ function FormularioFields({
                   onChange={onChange}
                   className="accent-blue-600"
                 />
-                <label htmlFor={tecnologiaId} className="cursor-pointer">
+                <label htmlFor={tecnologiaId} className="cursor-pointer dark:text-slate-200">
                   {tech}
                 </label>
               </div>
@@ -179,7 +179,7 @@ function FormularioFields({
       </fieldset>
 
       <div className="md:col-span-2 flex flex-col gap-1">
-        <label htmlFor={nivelId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={nivelId} className="text-sm font-medium text-gray-700 dark:text-slate-200">
           Nivel
         </label>
         <select
@@ -187,7 +187,7 @@ function FormularioFields({
           name="nivel"
           value={formData.nivel}
           onChange={onChange}
-          className="border border-gray-300 p-2 rounded bg-white outline-none focus:border-blue-400"
+          className="border border-gray-300 p-2 rounded bg-white outline-none focus:border-blue-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
         >
           {['Principiante', 'Intermedio', 'Avanzado'].map(n => (
             <option key={n} value={n}>{n}</option>
@@ -195,7 +195,7 @@ function FormularioFields({
         </select>
       </div>
 
-      <div className="md:col-span-2 flex items-center gap-2 text-sm text-gray-600">
+      <div className="md:col-span-2 flex items-center gap-2 text-sm text-gray-600 dark:text-slate-300">
         <input
           id={terminosId}
           type="checkbox"
@@ -275,7 +275,7 @@ export default function Formulario({ onSuccess }: FormularioProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-sm border border-gray-200 mb-8">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-sm border border-gray-200 mb-8 dark:bg-slate-900 dark:border-slate-700">
       <FormularioFields
         formData={formData}
         onChange={handleChange}
@@ -283,7 +283,7 @@ export default function Formulario({ onSuccess }: FormularioProps) {
       />
       <button
         type="submit"
-        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded shadow-sm transition-all active:scale-95"
+        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded shadow-sm transition-all active:scale-95 dark:bg-blue-500 dark:hover:bg-blue-600"
       >
         {participanteSeleccionado ? 'Actualizar' : 'Registrar'}
       </button>

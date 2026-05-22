@@ -84,8 +84,8 @@ export default function Lista() {
         nombreInputRef={filtroInputRef}
       />
       {filteredParticipantes.length === 0 ? (
-        <div className="text-center py-10 bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg mt-4">
-          <p className="text-gray-500 text-xl font-medium">No se encontraron participantes</p>
+        <div className="text-center py-10 bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg mt-4 dark:bg-slate-900 dark:border-slate-700">
+          <p className="text-gray-500 text-xl font-medium dark:text-slate-300">No se encontraron participantes</p>
         </div>
       ) : (
         <div className="grid md:grid-cols-3 gap-4 mt-4">
