@@ -92,6 +92,13 @@ export default function HamburgerMenu({
             Publica
           </Link>
           <Link
+            to="/cursos"
+            onClick={onClose}
+            className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
+          >
+            Cursos
+          </Link>
+          <Link
             to="/lista"
             onClick={onClose}
             className="block rounded px-3 py-2 text-gray-800 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"

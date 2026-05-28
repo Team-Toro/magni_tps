@@ -6,6 +6,7 @@ import FormularioPage from './pages/FormularioPage';
 import EditarPage from './pages/EditarPage';
 import LoginPage from './pages/LoginPage';
 import PublicaPage from './pages/PublicaPage';
+import CursosPage from './pages/CursosPage';
 import PrivateRoute from './routes/PrivateRoute';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
 import { useTheme } from './hooks/useTheme';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/publica" element={<PublicaPage />} />
+        <Route path="/cursos" element={<CursosPage />} />
         <Route
           path="/lista"
           element={
