@@ -1,11 +1,35 @@
 services:
+  backend:
+    build: .
+    env_file:
+      - .env
+    environment:
+      PORT: ${BACKEND_PORT:-3001}
+      MP_WEBHOOK_URL: ${MP_WEBHOOK_URL}
+      MP_WEBHOOK_SECRET: ${MP_WEBHOOK_SECRET}
+      MP_ACCESS_TOKEN: ${MP_ACCESS_TOKEN}
+    ports:
+      - "${BACKEND_PORT:-3001}:${BACKEND_PORT:-3001}"
+    command: ["npm","run","server"]
+  frontend:
+    build: .
+    env_file:
+      - .env
+    environment:
+      VITE_API_URL: ${VITE_API_URL}
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    depends_on:
+      - backend
+    command: ["npm","run","dev","--","--host","0.0.0.0"]
   ngrok:
     image: ngrok/ngrok:latest
-    restart: unless-stopped
-    command:
-      - "http"
-      - "api:3000"
     env_file:
-      - ./.env
+      - .env
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    command: ["http", "backend:${BACKEND_PORT:-3001}"]
     ports:
       - "4040:4040"
+    depends_on:
+      - backend

@@ -3,12 +3,18 @@ import cors from 'cors';
 import db from './database';
 import type { Request, Response } from 'express';
 import { authMiddleware, createToken, type AuthPayload } from './auth';
+import checkoutRoutes from './routes/checkoutRoutes';
+import mercadopagoRoutes from './routes/mercadopagoRoutes';
+import courseRoutes from './routes/courseRoutes';
 
 const app = express();
 const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use(checkoutRoutes);
+app.use(mercadopagoRoutes);
+app.use(courseRoutes);
 
 interface UsuarioRow {
   id: number;
