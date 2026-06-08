@@ -9,11 +9,24 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
+      allowedHosts: true,
       proxy: {
         '/api': {
           target: proxyTarget,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+        '/webhooks': {
+          target: proxyTarget,
+          changeOrigin: true,
+        },
+        '/login': {
+          target: proxyTarget,
+          changeOrigin: true,
+        },
+        '/participantes': {
+          target: proxyTarget,
+          changeOrigin: true,
         },
       },
     },

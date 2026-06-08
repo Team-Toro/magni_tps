@@ -7,6 +7,9 @@ import EditarPage from './pages/EditarPage';
 import LoginPage from './pages/LoginPage';
 import PublicaPage from './pages/PublicaPage';
 import CursosPage from './pages/CursosPage';
+import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
+import CheckoutFailurePage from './pages/CheckoutFailurePage';
+import CheckoutPendingPage from './pages/CheckoutPendingPage';
 import PrivateRoute from './routes/PrivateRoute';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
 import { useTheme } from './hooks/useTheme';
@@ -41,6 +44,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/publica" element={<PublicaPage />} />
         <Route path="/cursos" element={<CursosPage />} />
+        <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+        <Route path="/checkout/failure" element={<CheckoutFailurePage />} />
+        <Route path="/checkout/pending" element={<CheckoutPendingPage />} />
         <Route
           path="/lista"
           element={

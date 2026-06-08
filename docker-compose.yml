@@ -28,8 +28,8 @@ services:
       - .env
     environment:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-    command: ["http", "backend:${BACKEND_PORT:-3001}"]
+    command: ["http", "frontend:5173"]
     ports:
       - "4040:4040"
     depends_on:
-      - backend
+      - frontend
